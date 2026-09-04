@@ -16,6 +16,28 @@ npm run dev   # open http://localhost:5173
 
 `npm run build` produces a static production bundle in `dist/`.
 
+## Publishing (free)
+
+The app is a fully static site, so free hosting is easy. **GitHub Pages is already wired up**:
+merging to `main` triggers `.github/workflows/deploy.yml`, which builds the app and publishes it
+to `https://<your-username>.github.io/danceapp/` over HTTPS (required for camera access). The
+first run auto-enables Pages; if GitHub refuses, enable it once under
+**Settings → Pages → Source: GitHub Actions** and re-run the workflow.
+
+Other free options that work as-is (all serve `dist/` with HTTPS):
+
+- **Cloudflare Pages / Netlify / Vercel** — connect the repo, set build command `npm run build`,
+  output directory `dist`. These serve from the domain root, so don't set `BASE_PATH`.
+
+## Install it as an app (PWA)
+
+Tempo is a Progressive Web App: once it's served over HTTPS, open it on your phone and use
+**Add to Home Screen** (Android/Chrome offers "Install app"; iOS Safari: Share → Add to Home
+Screen). It launches full-screen with its own icon, and a service worker (`public/sw.js`) caches
+the app shell, pose model and WASM runtime so it keeps working offline after the first visit.
+For native app stores later, the same codebase can be wrapped with Capacitor — but stores charge
+developer fees, so the PWA is the free route.
+
 The pose model (`public/models/pose_landmarker_lite.task`) is committed to the repo, so
 **everything runs on-device**: no camera frame, landmark, or score ever leaves the browser.
 If the local model/WASM files are missing, the app falls back to loading them from the

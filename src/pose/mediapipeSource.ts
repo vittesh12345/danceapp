@@ -29,9 +29,10 @@ const MP_INDEX: Record<JointName, number> = {
   rightAnkle: 28,
 }
 
-const LOCAL_WASM = '/mediapipe'
+const BASE = import.meta.env.BASE_URL
+const LOCAL_WASM = `${BASE}mediapipe`
 const CDN_WASM = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm'
-const LOCAL_MODEL = '/models/pose_landmarker_lite.task'
+const LOCAL_MODEL = `${BASE}models/pose_landmarker_lite.task`
 const CDN_MODEL =
   'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/latest/pose_landmarker_lite.task'
 

@@ -1,7 +1,8 @@
 # Publishes the app to GitHub Pages (free hosting, HTTPS — required for
-# camera access) on every push to main. First run also enables Pages for
-# the repo; if that step is refused, enable it once by hand:
-# Settings → Pages → Source: "GitHub Actions".
+# camera access) on every push to main, by pushing the built site to the
+# `gh-pages` branch. Creating that branch auto-enables Pages the first time;
+# if the site ever stops updating, check Settings → Pages → Source is
+# "Deploy from a branch: gh-pages / (root)".
 name: Deploy to GitHub Pages
 
 on:
@@ -10,9 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -21,9 +20,6 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,11 +31,9 @@ jobs:
         run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
-      - uses: actions/configure-pages@v5
+      - name: Publish dist/ to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          force_orphan: true

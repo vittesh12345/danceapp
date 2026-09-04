@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.local
+.DS_Store
+
+# Copied from node_modules/@mediapipe/tasks-vision at install time (scripts/copy-wasm.mjs)
+public/mediapipe/
+tsconfig.tsbuildinfo

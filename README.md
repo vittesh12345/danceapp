@@ -19,10 +19,11 @@ npm run dev   # open http://localhost:5173
 ## Publishing (free)
 
 The app is a fully static site, so free hosting is easy. **GitHub Pages is already wired up**:
-merging to `main` triggers `.github/workflows/deploy.yml`, which builds the app and publishes it
-to `https://<your-username>.github.io/danceapp/` over HTTPS (required for camera access). The
-first run auto-enables Pages; if GitHub refuses, enable it once under
-**Settings → Pages → Source: GitHub Actions** and re-run the workflow.
+every push to `main` runs `.github/workflows/deploy.yml`, which builds the app and pushes the
+result to the `gh-pages` branch, published at `https://<your-username>.github.io/danceapp/` over
+HTTPS (required for camera access). GitHub Pages needs a **public** repo on the free plan, and it
+enables itself the first time the `gh-pages` branch appears; if the site ever stops updating,
+check **Settings → Pages → Source** is "Deploy from a branch: gh-pages / (root)".
 
 Other free options that work as-is (all serve `dist/` with HTTPS):
 

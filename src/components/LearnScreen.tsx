@@ -11,6 +11,9 @@ interface Props {
 
 const SPEEDS = [0.5, 0.75, 1]
 
+/** Set at build time for hosted previews that can't access a camera. */
+const DEMO_ONLY = import.meta.env.VITE_DEMO_ONLY === '1'
+
 export function LearnScreen({ move, onPractice, onBack }: Props) {
   const [speed, setSpeed] = useState(1)
   const [playing, setPlaying] = useState(true)
@@ -67,13 +70,27 @@ export function LearnScreen({ move, onPractice, onBack }: Props) {
           </ul>
 
           <div className="learn-cta">
-            <button className="btn primary big" onClick={() => onPractice('camera')}>
-              📷 Dance it — camera on
-            </button>
-            <button className="btn" onClick={() => onPractice('demo')}>
-              ✨ No camera? Watch demo mode
-            </button>
-            <p className="privacy-note">Pose tracking runs entirely on this device. Video never leaves your browser.</p>
+            {DEMO_ONLY ? (
+              <>
+                <button className="btn primary big" onClick={() => onPractice('demo')}>
+                  ✨ Start practice — demo dancer
+                </button>
+                <p className="privacy-note">
+                  This preview runs a simulated dancer through the full coaching pipeline. The full
+                  site adds live camera tracking.
+                </p>
+              </>
+            ) : (
+              <>
+                <button className="btn primary big" onClick={() => onPractice('camera')}>
+                  📷 Dance it — camera on
+                </button>
+                <button className="btn" onClick={() => onPractice('demo')}>
+                  ✨ No camera? Watch demo mode
+                </button>
+                <p className="privacy-note">Pose tracking runs entirely on this device. Video never leaves your browser.</p>
+              </>
+            )}
           </div>
         </div>
       </div>
